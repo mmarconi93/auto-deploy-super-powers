@@ -182,7 +182,7 @@ jobs:
             apk add --update --no-cache ansible
             pip install awscli
       - add_ssh_keys:
-          fingerprints: ["50:71:d8:c2:3e:ed:06:e7:cf:d1:b1:43:27:9e:0b:e7"]
+          fingerprints: ["8e:05:31:67:d0:c0:48:3a:71:d6:45:6e:a9:28:f8:a6"]
       - attach_workspace:
           at: ~/
       - run:
@@ -353,12 +353,12 @@ workflows:
           requires: [build-backend]
       - scan-frontend:
           requires: [build-frontend]
-#      - deploy-infrastructure:
-#          requires: [test-frontend, test-backend, scan-frontend, scan-backend]
-#      - configure-infrastructure:
-#          requires: [deploy-infrastructure]
-#      - run-migrations:
-#          requires: [configure-infrastructure]
+      - deploy-infrastructure:
+          requires: [test-frontend, test-backend, scan-frontend, scan-backend]
+      - configure-infrastructure:
+          requires: [deploy-infrastructure]
+      - run-migrations:
+          requires: [configure-infrastructure]
 #      - deploy-frontend:
 #          requires: [run-migrations]
 #      - deploy-backend:
