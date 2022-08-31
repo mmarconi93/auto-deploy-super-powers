@@ -5,14 +5,15 @@
     dest: /home/ubuntu
 
 - name: "unarchive backend files"
-  unarchive:
-    src: artifact.tar.gz
-    dest: /home/ubuntu
+  ansible.builtin.shell: tar -xzf artifact.tar.gz
+  args:
+    chdir: /home/ubuntu
 
 - name: "install dependencies"
   shell: |
     cd /home/ubuntu/backend
     npm i
+    
 - name: "node app with pm2"
   shell: |
     cd /home/ubuntu/backend/dist

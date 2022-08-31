@@ -246,13 +246,13 @@ jobs:
 
   deploy-frontend:
     docker:
-      - image: circleci/node:13.8.0
+      - image: cimg/base:2022.04
     steps:
       - checkout
       - install_awscli
       - install_nodejs
       - restore_cache:
-          keys: [frontend-build]
+          keys: [backend-build]
       - run: 
           name: npm install
           command: |
@@ -285,15 +285,15 @@ jobs:
       - image: cimg/base:2022.04
     steps:
       - checkout
+      - install_awscli
+      - install_ansible
+      - install_nodejs
       - add_ssh_keys:
           fingerprints: ["8e:05:31:67:d0:c0:48:3a:71:d6:45:6e:a9:28:f8:a6"]
       - attach_workspace:
           at: ~/
       - restore_cache:
           keys: [backend-build]
-      - install_awscli
-      - install_ansible
-      - install_nodejs
       - run: 
           name: npm install
           command: |
@@ -314,7 +314,6 @@ jobs:
             export TYPEORM_ENTITIES=./modules/domain/**/*.entity{.ts,.js}
             export TYPEORM_MIGRATIONS=./migrations/*.ts
             cd .circleci/ansible
-            cat inventory.txt
             ansible-playbook -i inventory.txt deploy-backend.yml
       - destroy-environment
       - revert-migrations
