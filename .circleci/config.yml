@@ -280,18 +280,18 @@ jobs:
 
   deploy-backend:
     docker:
-      - image: python:3.7-alpine3.11
+      - image: cimg/base:2022.04
     steps:
       - checkout
-      - install_awscli
-      - install_ansible
-      - install_nodejs
       - add_ssh_keys:
           fingerprints: ["8e:05:31:67:d0:c0:48:3a:71:d6:45:6e:a9:28:f8:a6"]
       - attach_workspace:
           at: ~/
       - restore_cache:
           keys: [backend-build]
+      - install_awscli
+      - install_ansible
+      - install_nodejs
       - run: 
           name: npm install
           command: |
