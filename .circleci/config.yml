@@ -258,11 +258,6 @@ jobs:
           command: |
             cd frontend
             npm install
-      - run: 
-          name: install curl tar and gzip
-          command: | 
-            sudo apt-get install curl
-            sudo apt-get install tar gzip
       - run:
           name: Backend url
           command: |
@@ -273,7 +268,7 @@ jobs:
           name: deploy frontend objects
           command: |
             cd frontend
-            npm i
+            npm install
             npm run build
             tar -czvf artifact-"${CIRCLE_WORKFLOW_ID:0:7}".tar.gz dist 
             aws s3 cp dist s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7} --recursive
@@ -282,7 +277,7 @@ jobs:
 
   deploy-backend:
     docker:
-      - image: cimg/base:stable
+      - image: cimg/base:2022.04
     steps:
       - checkout
       - install_awscli
@@ -303,10 +298,13 @@ jobs:
           name: backend package
           command: |
             cd backend
+            npm i
             npm run build
-            tar -czf artifact.tar.gz/ *package*
-            cd ..
-            cp artifact.tar.gz .circleci/ansible/roles/deploy/tasks/files
+            cd ../
+            tar -czf artifact.tar.gz backend
+            pwd
+            ls 
+            mv artifact.tar.gz .circleci/ansible/roles/deploy/tasks/files
       - run:
           name: deploy backend
           command: |
