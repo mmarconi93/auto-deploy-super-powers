@@ -6,7 +6,6 @@
 
 - name: "unarchive backend files"
   ansible.builtin.shell: tar -xzf /root/project/artifact.tar.gz
-
   args:
     chdir: /home/ubuntu
 
