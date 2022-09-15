@@ -319,28 +319,19 @@ jobs:
 
   smoke-test:
     docker:
-      - image: python:3.7-alpine3.11
+      - image: cimg/base:2022.04
     steps:
       - checkout
-      - run:
-          name: install dependencies
-          command: |
-            apk add --update npm nodejs curl
-            apk add --update --no-cache python3 py3-pip
-            /usr/local/bin/python -m pip install --upgrade pip 
-            pip install awscli
-      - run:
-          name: export backend url
-          command: |
-            export BACKEND_IP=$(aws ec2 describe-instances --query 'Reservations[*].Instances[*].PublicIpAddress' --filters "Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID:0:7}" --output text)
+      - install_awscli
+      - install_ansible
+      - install_nodejs
       - run:
           name: backend smoke test
           command: |
-            export BACKEND_IP=$(aws ec2 describe-instances --query 'Reservations[*].Instances[*].PublicIpAddress' --filters "Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID:0:7}" --output text)
+            BACKEND_IP=$(aws ec2 describe-instances --query 'Reservations[*].Instances[*].PublicIpAddress' --filters "Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID:0:7}" --output text)
             echo "BACKEND_IP=${BACKEND_IP}"
-            export API_URL=http://${BACKEND_IP}:3030"
-            echo "API_URL=${API_URL}"
-            if curl "${API_URL}/api/status" | grep "ok"
+            export API_URL=http://${BACKEND_IP}:3030
+            if curl ${API_URL}/api/status | grep "ok"
             then
                return 0
             else
