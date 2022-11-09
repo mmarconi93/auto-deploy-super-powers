@@ -206,7 +206,7 @@ jobs:
     steps:
       - checkout
       - add_ssh_keys:
-          fingerprints: ["8e:05:31:67:d0:c0:48:3a:71:d6:45:6e:a9:28:f8:a6"]
+          fingerprints: ["b3:e1:02:f2:78:39:56:28:ec:ca:3f:4a:06:63:c2:95"]
       - install_ansible
       - install_awscli
       - attach_workspace:
@@ -239,7 +239,7 @@ jobs:
           command: |
             if grep -q "has been executed successfully." ~/project/backend/migrations_dump.txt
             then
-                curl https://kvdb.io/FChcMmErKQHsqS3iGdGLsF/migration_${CIRCLE_WORKFLOW_ID:0:7}  -d '1'
+                curl https://kvdb.io/NpoHYTBLa6D9kEyiqXD1XN/migration_${CIRCLE_WORKFLOW_ID:0:7}  -d '1'
             fi
       - destroy-environment
       - revert-migrations
@@ -284,7 +284,7 @@ jobs:
       - install_ansible
       - install_nodejs
       - add_ssh_keys:
-          fingerprints: ["8e:05:31:67:d0:c0:48:3a:71:d6:45:6e:a9:28:f8:a6"]
+          fingerprints: ["b3:e1:02:f2:78:39:56:28:ec:ca:3f:4a:06:63:c2:95"]
       - attach_workspace:
           at: ~/
       - restore_cache:
