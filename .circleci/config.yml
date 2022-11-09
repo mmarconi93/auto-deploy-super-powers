@@ -37,7 +37,7 @@ commands:
   install_awscli:
     description: install awscli v2
     steps:
-      - run: 
+      - run:
           name: install awscli v2
           command: |
             sudo apt update && sudo apt upgrade
@@ -47,18 +47,18 @@ commands:
             sudo ./aws/install
   install_ansible:
     description: install ansible
-    steps: 
-      - run: 
+    steps:
+      - run:
           name: install ansible
           command: |
             sudo apt update
             sudo apt install software-properties-common -y 
             sudo add-apt-repository --yes --update ppa:ansible/ansible
-            sudo apt install ansible -y 
+            sudo apt install ansible -y
   install_nodejs:
     description: install nodejs
-    steps: 
-      - run: 
+    steps:
+      - run:
           name: install nodejs
           command: |
             sudo apt update && sudo apt upgrade
@@ -141,7 +141,8 @@ jobs:
           command: |
             cd frontend
             npm install
-            npm audit fix --audit-level=critical --force
+            npm audit fix --force --audit-level=critical
+            npm audit fix --force --audit-level=critical
             npm audit --audit-level=critical
 
   scan-backend:
@@ -253,7 +254,7 @@ jobs:
       - install_nodejs
       - restore_cache:
           keys: [backend-build]
-      - run: 
+      - run:
           name: npm install
           command: |
             cd frontend
@@ -289,7 +290,7 @@ jobs:
           at: ~/
       - restore_cache:
           keys: [backend-build]
-      - run: 
+      - run:
           name: npm install
           command: |
             cd backend
@@ -349,11 +350,11 @@ jobs:
             fi
       - destroy-environment
       - revert-migrations
-  
+
   cloudfront-update:
-    docker: 
+    docker:
       - image: cimg/base:2022.04
-    steps: 
+    steps:
       - checkout
       - install_awscli
       - install_ansible
@@ -367,7 +368,7 @@ jobs:
             echo "Old Workflow ID: $OLD_WORKFLOW_ID"
             curl https://kvdb.io/FChcMmErKQHsqS3iGdGLsF/old_workflow_id -d "${OLD_WORKFLOW_ID}"
       - run:
-          name: update cloudfront distro 
+          name: update cloudfront distro
           command: |
             aws cloudformation deploy \
               --template-file .circleci/files/cloudfront.yml \
