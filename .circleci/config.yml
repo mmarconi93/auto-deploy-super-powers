@@ -239,13 +239,14 @@ jobs:
             cd backend
             npm i
             npm run build
-            npm run migrations > migrations_dump.txt
+            npm run migrations >> migrations_dump.txt
       - run:
           name: Send migration status to kvdb.io
           command: |
-            if grep -q "has been executed successfully." ~/project/backend/migrations_dump.txt
+            cd backned 
+            if grep -q "has been executed successfully." migrations_dump.txt
             then
-                curl https://kvdb.io/NpoHYTBLa6D9kEyiqXD1XN/migration_${CIRCLE_WORKFLOW_ID:0:7}  -d '1'
+                curl https://kvdb.io/42pbuHx6kZPveHvdZhqdvf/migration_${CIRCLE_WORKFLOW_ID:0:7}  -d '1'
             fi
       - destroy-environment
       - revert-migrations
