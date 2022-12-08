@@ -16,6 +16,7 @@ commands:
             aws cloudformation delete-stack --stack-name udapeople-backend-<<parameters.workflow_id>>
             aws cloudformation delete-stack --stack-name udapeople-frontend-<<parameters.workflow_id>>
             aws s3 rm s3://udapeople-<<parameters.workflow_id>> --recursive
+
   revert-migrations:
     description: Revert the last migration if successful
     parameters:
@@ -34,6 +35,7 @@ commands:
              npm install
              npm run migration:revert
             fi
+
   install_awscli:
     description: install awscli v2
     steps:
@@ -45,6 +47,7 @@ commands:
             curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
             unzip awscliv2.zip
             sudo ./aws/install
+
   install_ansible:
     description: install ansible
     steps:
@@ -55,6 +58,7 @@ commands:
             sudo apt install software-properties-common -y 
             sudo add-apt-repository --yes --update ppa:ansible/ansible
             sudo apt install ansible -y
+
   install_nodejs:
     description: install nodejs
     steps:
