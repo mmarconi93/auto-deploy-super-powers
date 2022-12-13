@@ -235,6 +235,7 @@ jobs:
       - run:
           name: run migrations
           command: |
+            set -e
             cd backend
             npm i
             npm run build
