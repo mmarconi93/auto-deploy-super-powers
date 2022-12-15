@@ -243,7 +243,7 @@ jobs:
       - run:
           name: Send migration status to kvdb.io
           command: |
-            cd backned 
+            cd backend 
             if grep -q "has been executed successfully." migrations_dump.txt
             then
                 curl https://kvdb.io/42pbuHx6kZPveHvdZhqdvf/migration_${CIRCLE_WORKFLOW_ID:0:7}  -d '1'
@@ -311,7 +311,7 @@ jobs:
             tar -czf artifact.tar.gz backend
             pwd
             ls 
-            cp artifact.tar.gz .circleci/ansible/roles/deploy/tasks
+            cp artifact.tar.gz .circleci/ansible/roles/deploy/tasks/files
       - run:
           name: deploy backend
           command: |
@@ -359,11 +359,10 @@ jobs:
 
   cloudfront-update:
     docker:
-      - image: cimg/base:2022.04
+      - image: cimg/base:stable
     steps:
       - checkout
       - install_awscli
-      - install_ansible
       - install_nodejs
       - run:
           name: save old workflow to kvdb.io
