@@ -75,7 +75,7 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: [frontend-build]
+          keys: [frontend-build]
       - run:
           name: Build front-end
           command: |
@@ -92,7 +92,7 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: [backend-build]
+          keys: [backend-build]
       - run:
           name: Back-end build
           command: |
@@ -109,7 +109,8 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: [frontend-build]
+          key: 
+            frontend-build
       - run:
           name: Run frontend test
           command: |
@@ -123,7 +124,8 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: [backend-build]
+          key: 
+            backend-build
       - run:
           name: Run backend test
           command: |
@@ -137,7 +139,8 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: [frontend-build]
+          key: 
+            frontend-build
       - run:
           name: frontend-scan
           command: |
@@ -152,7 +155,8 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: [backend-build]
+          key: 
+            backend-build
       - run:
           name: backend-scan
           command: |
@@ -228,7 +232,7 @@ jobs:
       - checkout
       - install_awscli
       - restore_cache:
-          keys: [backend-build]
+          key: [backend-build]
       - run:
           name: run migrations
           command: |
