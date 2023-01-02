@@ -232,7 +232,7 @@ jobs:
       - checkout
       - install_awscli
       - restore_cache:
-          key: [backend-build]
+          keys: [backend-build]
       - run:
           name: run migrations
           command: |
