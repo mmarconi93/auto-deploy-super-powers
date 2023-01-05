@@ -386,6 +386,36 @@ jobs:
               --tags project=udapeople
       - destroy-environment
       - revert-migrations
+  
+  cleanup:
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - checkout 
+      - install_awscli
+      - install_nodejs
+      - attach_workspace:
+          at: ~/
+      - run:
+          name: Delete old stacks and files
+          command: |
+            export OldWorkflowID=$(aws cloudformation \
+                    list-exports --query "Exports[?Name==\'WorkflowID\'].Value" \
+                    --no-paginate --output text)
+            echo OldWorkflowID: "${OldWorkflowID}"
+            echo CIRCLE_WORKFLOW_ID "${CIRCLE_WORKFLOW_ID:0:7}"
+            export STACKS=($(aws cloudformation list-stacks --query "StackSummaries[*].StackName" \
+                    --stack-status-filter CREATE_COMPLETE --no-paginate --output text))
+            echo Stack names: "${STACKS[@]}"
+            if [[ "${CIRCLE_WORKFLOW_ID:0:7}" =~ "${OldWorkflowID}" ]]
+            then
+            echo "***DELETE COMPLETE***"
+              aws s3 rm "s3://udapeople-${OldWorkflowID}" -- recursive
+              aws cloudformation delete-stack --stack-name "udapeople-backend-${OldWorkflowID}"
+              aws cloudformation delete-stack --stack-name "udapeople-frontend-${OldWorkflowID}"
+              else 
+              echo "***DELETE CANNOT BE PROCESSED***"
+              fi 
 
 workflows:
   default:
@@ -414,3 +444,5 @@ workflows:
           requires: [deploy-backend]
       - cloudfront-update:
           requires: [smoke-test]
+      - cleanup:
+          requires: [cloudfront-update]
