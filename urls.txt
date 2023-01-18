@@ -1,0 +1,5 @@
+Public URL for S3 Bucket:
+http://udapeople-dc9e8de.s3-website-us-east-1.amazonaws.com
+
+Public GitHub respository:
+https://github.com/mmarconi93/auto-deploy-super-powers
