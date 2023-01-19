@@ -2,7 +2,7 @@ version: 2.1
 
 commands:
   destroy-environment:
-    description: Destroy backend and frontend AWS Cloudformation stacks of given workflow ID
+    description: Destroy backend and frontend AWS Cloudformation stack of given workflow ID
     parameters:
       workflow_id:
         type: string
