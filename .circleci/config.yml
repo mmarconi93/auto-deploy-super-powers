@@ -392,7 +392,7 @@ jobs:
             export STACKS=($(aws cloudformation list-stacks --query "StackSummaries[*].StackName" \
                     --stack-status-filter CREATE_COMPLETE --no-paginate --output text))
             echo Stack names: "${STACKS[@]}"
-            if [[ "${OldWorkflowID:0:7}" == "${CIRCLE_WORKFLOW_ID:0:7}" ]]
+            if [[ "$(echo ${OldWorkflowID}|cut -c 1-7)" == "$(echo ${CIRCLE_WORKFLOW_ID}|cut -c 1-7)" ]]
             then 
             echo "***DELETE DONE***"
               aws s3 rm "s3://udapeople-${OldWorkflowID}" --recursive
